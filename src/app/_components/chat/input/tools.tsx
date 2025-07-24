@@ -1,13 +1,5 @@
 import { Button } from "@/components/ui/button";
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import {
   TooltipContent,
   TooltipTrigger,
   Tooltip,
@@ -24,6 +16,8 @@ import { ToolkitIcons } from "@/components/toolkit/toolkit-icons";
 import { clientToolkits } from "@/toolkits/toolkits/client";
 import { LanguageModelCapability } from "@/ai/types";
 import { cn } from "@/lib/utils";
+import { DropdownMenu, DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu";
+import { DropdownMenuContent } from "@/components/ui/dropdown-menu";
 
 export const ToolsSelect = () => {
   const { toolkits, addToolkit, removeToolkit, workbench, selectedChatModel } =
@@ -93,8 +87,8 @@ export const ToolsSelect = () => {
 
   return (
     <TooltipProvider>
-      <Dialog open={isOpen} onOpenChange={setIsOpen}>
-        <DialogTrigger asChild>
+      <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
+        <DropdownMenuTrigger asChild>
           <Button
             variant={"outline"}
             className={cn(
@@ -118,38 +112,41 @@ export const ToolsSelect = () => {
                 : "Add Toolkits"}
             </span>
           </Button>
-        </DialogTrigger>
+        </DropdownMenuTrigger>
 
-        <DialogContent
-          className="flex max-h-[80vh] w-full max-w-2xl flex-col gap-4 overflow-hidden"
-          showCloseButton={false}
+       <DropdownMenuContent
+          className="w-xs overflow-hidden p-0 md:w-lg"
+          align="start"
+          sideOffset={8}
         >
-          <DialogHeader className="gap-0">
-            <DialogTitle className="text-xl">Manage Toolkits</DialogTitle>
-            <DialogDescription>
+          <div className="bg-background sticky top-0 z-10 border-b p-2">
+            <h2 className="mb-1 text-sm font-bold">Toolkit Selector</h2>
+            <div className="text-muted-foreground text-sm">
               Add or remove tools to enhance your chat experience
-            </DialogDescription>
-          </DialogHeader>
-          <div className="h-0 flex-1 overflow-y-auto">
+            </div>
+          </div>
+          <div className="max-h-56 w-full pl-2 pr-1 py-2 max-w-full overflow-x-hidden overflow-y-auto md:max-h-80">
             <ToolkitList
               selectedToolkits={toolkits}
               onAddToolkit={addToolkit}
               onRemoveToolkit={removeToolkit}
             />
+            {workbench !== undefined && (
+              <div className="p-2 border-t">
+                <Button
+                  variant={"outline"}
+                  className="bg-transparent w-full"
+                  onClick={handleSave}
+                  disabled={isPending}
+                >
+                  {isPending ? <Loader2 className="animate-spin" /> : <Save />}
+                  Save
+                </Button>
+              </div>
+            )}
           </div>
-          {workbench !== undefined && (
-            <Button
-              variant={"outline"}
-              className="bg-transparent"
-              onClick={handleSave}
-              disabled={isPending}
-            >
-              {isPending ? <Loader2 className="animate-spin" /> : <Save />}
-              Save
-            </Button>
-          )}
-        </DialogContent>
-      </Dialog>
+        </DropdownMenuContent>
+      </DropdownMenu>
     </TooltipProvider>
   );
 };
