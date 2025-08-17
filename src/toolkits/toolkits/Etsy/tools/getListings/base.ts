@@ -3,7 +3,7 @@ import { createBaseTool } from "@/toolkits/create-tool";
 import { ShopListing } from "etsy-ts/dist/api/ShopListing";
 import type { IShopListingsWithAssociations } from "etsy-ts";
 
-export const getListing = createBaseTool({
+export const getListings = createBaseTool({
   description: "Fetches all listings from the Etsy shop associated with the authenticated user.",
   inputSchema: z.object({
   }),

@@ -1,14 +1,14 @@
 import type { ServerToolConfig } from "@/toolkits/types";
-import type { getListing } from "./base";
+import type { getListings } from "./base";
 import { api } from "@/trpc/server";
 import { refreshEtsyAccessToken} from "@/server/auth/custom-providers/etsy";
 
 
-export const getListingServerConfig = (
+export const getListingsServerConfig = (
 
   ): ServerToolConfig<
-  typeof getListing.inputSchema.shape,
-  typeof getListing.outputSchema.shape
+  typeof getListings.inputSchema.shape,
+  typeof getListings.outputSchema.shape
 > => {
   return {
     callback: async () => {
@@ -52,6 +52,23 @@ export const getListingServerConfig = (
         );
         const listings = (await listingResponse.json());
 
+        // this is going to be very inefficient code for large shops, but let's do this for now. I can raise QPS ratelimits if needed
+        // for each listing, fetch the images
+        for (let i = 0; i < listings.results.length; i++) {
+          const listing = listings.results[i];
+          const imageResponse = await fetch(
+            `https://openapi.etsy.com/v3/application/listings/${listing.listing_id}/images`,
+            {
+              headers: {
+                "x-api-key": apiKey,
+                Authorization: `Bearer ${accessToken}`,
+              }
+            },
+          );
+          const images = (await imageResponse.json());
+          listing.images = images.results;
+        }
+
 
         return {
           listings: listings,
@@ -62,7 +79,7 @@ export const getListingServerConfig = (
       }
     },
     message:
-      "Successfully retrieved the Etsy listing. The user is shown the responses in the UI. Do not reiterate them. The user is shown the responses in the UI. " +
+      "Successfully retrieved the Etsy listing. The user is shown the responses in the UI. Do not reiterate them. " +
       "If you called this tool because the user asked a question, answer the question.",
   };
 };

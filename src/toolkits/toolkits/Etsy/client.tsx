@@ -5,7 +5,7 @@ import { baseEtsyToolkitConfig } from "./base";
 import { EtsyWrapper } from "./wrapper";
 import { Link } from "../components/link";
 import { EtsyTools } from "./tools/tools";
-import { getListingClientConfig } from "./tools/getListing/client";
+import { getListingsClientConfig } from "@/toolkits/toolkits/Etsy/tools/getListings/client";
 
 export const etsyClientToolkit = createClientToolkit(
   baseEtsyToolkitConfig,
@@ -29,6 +29,6 @@ export const etsyClientToolkit = createClientToolkit(
       }],
   },
   {
-    [EtsyTools.getListing]: getListingClientConfig
+    [EtsyTools.getListings]: getListingsClientConfig
   }
 )

@@ -1,3 +1,3 @@
 export enum EtsyTools {
-  getListing = "get-listing",
+  getListings = "get-listings",
 }
