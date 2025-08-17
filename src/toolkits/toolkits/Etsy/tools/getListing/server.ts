@@ -1,6 +1,7 @@
 import type { ServerToolConfig } from "@/toolkits/types";
 import type { getListing } from "./base";
 import { api } from "@/trpc/server";
+import { refreshEtsyAccessToken} from "@/server/auth/custom-providers/etsy";
 
 
 export const getListingServerConfig = (
@@ -16,10 +17,16 @@ export const getListingServerConfig = (
         const userID = account?.providerAccountId;
         const etsyUserId = Number(userID);
         const apiKey = process.env.AUTH_ETSY_ID;
+        const refreshToken = account?.refresh_token;
+        const accessExpiry = account?.expires_at;
+
         if (!apiKey) throw new Error("Missing AUTH_ETSY_ID");
+        if (accessExpiry && refreshToken && userID && (accessExpiry < Date.now() / 1000)) {
+          await refreshEtsyAccessToken(refreshToken, userID);
+        }
+
         const accessToken = account?.access_token;
         if (!accessToken) throw new Error("Missing Etsy access token");
-
 
 
         const shopResponse = await fetch(
