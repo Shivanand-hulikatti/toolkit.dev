@@ -5,8 +5,8 @@ import { getListingsServerConfig } from "@/toolkits/toolkits/Etsy/tools/getListi
 import { api } from "@/trpc/server";
 export const etsyToolkitServer = createServerToolkit(
   baseEtsyToolkitConfig,
-  'You have access to the Etsy toolkit for general account management. Currently, this toolkit provides:\n' +
-  '- **Get Listings**: Retrieves all listings and their image URLs associated with the shop associated with the signed-in user.\n\n',
+  "You have access to the Etsy toolkit for general account management. Currently, this toolkit provides:\n" +
+    "- **Get Listings**: Retrieves all listings and their image URLs associated with the shop associated with the signed-in user.\n\n",
   async () => {
     const account = await api.accounts.getAccountByProvider("etsy");
 
@@ -18,7 +18,7 @@ export const etsyToolkitServer = createServerToolkit(
     }
 
     return {
-      [EtsyTools.getListings]: getListingsServerConfig()
-      };
-    }
+      [EtsyTools.getListings]: getListingsServerConfig(),
+    };
+  },
 );

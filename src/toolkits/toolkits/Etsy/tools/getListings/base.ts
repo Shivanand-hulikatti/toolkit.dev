@@ -4,11 +4,10 @@ import { ShopListing } from "etsy-ts/dist/api/ShopListing";
 import type { IShopListingsWithAssociations } from "etsy-ts";
 
 export const getListings = createBaseTool({
-  description: "Fetches all listings from the Etsy shop associated with the authenticated user.",
-  inputSchema: z.object({
-  }),
-  outputSchema: z.object({
-  })
+  description:
+    "Fetches all listings from the Etsy shop associated with the authenticated user.",
+  inputSchema: z.object({}),
+  outputSchema: z.object({}),
   // outputSchema: z.object({
   //   title: z.string().describe("The title of the Etsy listing"),
   //   description: z.string().describe("The description of the Etsy listing"),

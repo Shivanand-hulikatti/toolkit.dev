@@ -1,4 +1,4 @@
-import type { ClientToolConfig} from "@/toolkits/types";
+import type { ClientToolConfig } from "@/toolkits/types";
 import type { getListings } from "./base";
 
 export const getListingsClientConfig: ClientToolConfig<
@@ -12,8 +12,6 @@ export const getListingsClientConfig: ClientToolConfig<
     </div>
   ),
   ResultComponent: ({ args, result }) => (
-    <div className="border rounded p-4">
-
-    </div>
-  )
+    <div className="rounded border p-4"></div>
+  ),
 };

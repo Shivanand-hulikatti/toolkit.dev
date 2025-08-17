@@ -26,9 +26,10 @@ export const etsyClientToolkit = createClientToolkit(
             <Link href="https://www.etsy.com/developers">here</Link>
           </span>
         ),
-      }],
+      },
+    ],
   },
   {
-    [EtsyTools.getListings]: getListingsClientConfig
-  }
-)
+    [EtsyTools.getListings]: getListingsClientConfig,
+  },
+);

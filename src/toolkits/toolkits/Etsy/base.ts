@@ -3,7 +3,6 @@ import type { ToolkitConfig } from "@/toolkits/types";
 import { EtsyTools } from "./tools/tools";
 import { getListings } from "@/toolkits/toolkits/Etsy/tools/getListings/base";
 
-
 export const etsyParameters = z.object({});
 
 export const baseEtsyToolkitConfig: ToolkitConfig<
@@ -11,7 +10,7 @@ export const baseEtsyToolkitConfig: ToolkitConfig<
   typeof etsyParameters.shape
 > = {
   tools: {
-    [EtsyTools.getListings]: getListings
+    [EtsyTools.getListings]: getListings,
   },
   parameters: etsyParameters,
-}
+};

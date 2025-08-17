@@ -1,6 +1,6 @@
 import { env } from "@/env";
 import type { OAuth2Config, OAuthUserConfig } from "@auth/core/providers";
-import {db} from "@/server/db";
+import { db } from "@/server/db";
 
 export interface EtsyProfile {
   user_id: number; // The numeric ID of a user. Also a valid shop ID.
@@ -66,8 +66,8 @@ export default function EtsyProvider<P extends EtsyProfile>(
 }
 
 export async function refreshEtsyAccessToken(
-    refreshToken: string,
-    providerAccountId: string
+  refreshToken: string,
+  providerAccountId: string,
 ) {
   const response = await fetch("https://api.etsy.com/v3/public/oauth/token", {
     method: "POST",
@@ -75,7 +75,7 @@ export async function refreshEtsyAccessToken(
     body: new URLSearchParams({
       grant_type: "refresh_token",
       client_id: process.env.AUTH_ETSY_ID!, // your app's client_id
-      refresh_token: refreshToken,      // the one you stored
+      refresh_token: refreshToken, // the one you stored
     }),
   });
   if (!response.ok) {

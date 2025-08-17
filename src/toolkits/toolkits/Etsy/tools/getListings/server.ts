@@ -1,12 +1,9 @@
 import type { ServerToolConfig } from "@/toolkits/types";
 import type { getListings } from "./base";
 import { api } from "@/trpc/server";
-import { refreshEtsyAccessToken} from "@/server/auth/custom-providers/etsy";
+import { refreshEtsyAccessToken } from "@/server/auth/custom-providers/etsy";
 
-
-export const getListingsServerConfig = (
-
-  ): ServerToolConfig<
+export const getListingsServerConfig = (): ServerToolConfig<
   typeof getListings.inputSchema.shape,
   typeof getListings.outputSchema.shape
 > => {
@@ -21,13 +18,17 @@ export const getListingsServerConfig = (
         const accessExpiry = account?.expires_at;
 
         if (!apiKey) throw new Error("Missing AUTH_ETSY_ID");
-        if (accessExpiry && refreshToken && userID && (accessExpiry < Date.now() / 1000)) {
+        if (
+          accessExpiry &&
+          refreshToken &&
+          userID &&
+          accessExpiry < Date.now() / 1000
+        ) {
           await refreshEtsyAccessToken(refreshToken, userID);
         }
 
         const accessToken = account?.access_token;
         if (!accessToken) throw new Error("Missing Etsy access token");
-
 
         const shopResponse = await fetch(
           `https://openapi.etsy.com/v3/application/users/${etsyUserId}/shops`,
@@ -35,11 +36,11 @@ export const getListingsServerConfig = (
             headers: {
               "x-api-key": apiKey,
               Authorization: `Bearer ${accessToken}`,
-            }
+            },
           },
         );
 
-        const shop = (await shopResponse.json());
+        const shop = await shopResponse.json();
 
         const listingResponse = await fetch(
           `https://openapi.etsy.com/v3/application/shops/${shop.shop_id}/listings`,
@@ -47,10 +48,10 @@ export const getListingsServerConfig = (
             headers: {
               "x-api-key": apiKey,
               Authorization: `Bearer ${accessToken}`,
-            }
+            },
           },
         );
-        const listings = (await listingResponse.json());
+        const listings = await listingResponse.json();
 
         // this is going to be very inefficient code for large shops, but let's do this for now. I can raise QPS ratelimits if needed
         // for each listing, fetch the images
@@ -62,13 +63,12 @@ export const getListingsServerConfig = (
               headers: {
                 "x-api-key": apiKey,
                 Authorization: `Bearer ${accessToken}`,
-              }
+              },
             },
           );
-          const images = (await imageResponse.json());
+          const images = await imageResponse.json();
           listing.images = images.results;
         }
-
 
         return {
           listings: listings,
