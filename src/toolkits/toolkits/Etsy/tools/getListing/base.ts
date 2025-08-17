@@ -8,7 +8,6 @@ export const getListing = createBaseTool({
   inputSchema: z.object({
   }),
   outputSchema: z.object({
-    listings: z.custom<IShopListingsWithAssociations>()
   })
   // outputSchema: z.object({
   //   title: z.string().describe("The title of the Etsy listing"),

@@ -28,7 +28,7 @@ export const EtsyWrapper: ClientToolkitWrapper = ({ Item }) => {
     return <Item isLoading={true} />;
   }
 
-  if (!hasAccount) {
+  if (!hasAccount || true) {
     return (
       <>
         <Item

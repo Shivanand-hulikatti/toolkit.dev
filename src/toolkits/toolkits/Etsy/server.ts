@@ -19,13 +19,8 @@ export const etsyToolkitServer = createServerToolkit(
       throw new Error("No Etsy access token found");
     }
 
-    const etsy = new Etsy({
-      apiKey: env.AUTH_ETSY_ID,
-      // TODO:: workaround for ISecurityDataStorage
-    });
-
     return {
-      [EtsyTools.getListing]: getListingServerConfig(etsy)
+      [EtsyTools.getListing]: getListingServerConfig()
       };
     }
 );

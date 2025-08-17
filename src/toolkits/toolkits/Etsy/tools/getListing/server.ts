@@ -1,11 +1,10 @@
 import type { ServerToolConfig } from "@/toolkits/types";
 import type { getListing } from "./base";
-import type { Etsy } from "etsy-ts";
 import { api } from "@/trpc/server";
 
 
 export const getListingServerConfig = (
-  etsy: Etsy
+
   ): ServerToolConfig<
   typeof getListing.inputSchema.shape,
   typeof getListing.outputSchema.shape
@@ -16,16 +15,39 @@ export const getListingServerConfig = (
         const account = await api.accounts.getAccountByProvider("etsy");
         const userID = account?.providerAccountId;
         const etsyUserId = Number(userID);
+        const apiKey = process.env.AUTH_ETSY_ID;
+        if (!apiKey) throw new Error("Missing AUTH_ETSY_ID");
+        const accessToken = account?.access_token;
+        if (!accessToken) throw new Error("Missing Etsy access token");
 
 
-        const shop = await etsy.Shop.getShopByOwnerUserId(etsyUserId, {etsyUserId});
-        const shopId = shop.data.shop_id;
-        if (typeof shopId !== "number") {
-          throw new Error("shop_id is undefined");
-        }
-        const listings = await etsy.ShopListing.getListingsByShop({ shopId: shopId }, { etsyUserId });
+
+        const shopResponse = await fetch(
+          `https://openapi.etsy.com/v3/application/users/${etsyUserId}/shops`,
+          {
+            headers: {
+              "x-api-key": apiKey,
+              Authorization: `Bearer ${accessToken}`,
+            }
+          },
+        );
+
+        const shop = (await shopResponse.json());
+
+        const listingResponse = await fetch(
+          `https://openapi.etsy.com/v3/application/shops/${shop.shop_id}/listings`,
+          {
+            headers: {
+              "x-api-key": apiKey,
+              Authorization: `Bearer ${accessToken}`,
+            }
+          },
+        );
+        const listings = (await listingResponse.json());
+
+
         return {
-          listings: listings.data,
+          listings: listings,
         };
       } catch (error) {
         console.error("Etsy API error:", error);
