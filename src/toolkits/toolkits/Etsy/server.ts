@@ -1,8 +1,10 @@
+import { Etsy } from "etsy-ts";
 import { createServerToolkit } from "../../create-toolkit";
 import { baseEtsyToolkitConfig } from "./base";
 import { EtsyTools } from "./tools/tools";
-import { getListingsServerConfig } from "@/toolkits/toolkits/Etsy/tools/get-listings/server";
+import { getListingsServerConfig } from "@/toolkits/toolkits/etsy/tools/get-listings/server";
 import { api } from "@/trpc/server";
+import { EtsySecurityDataStorage } from "./security-data-storage";
 export const etsyToolkitServer = createServerToolkit(
   baseEtsyToolkitConfig,
   "You have access to the Etsy toolkit for general account management. Currently, this toolkit provides:\n" +
@@ -17,8 +19,14 @@ export const etsyToolkitServer = createServerToolkit(
       throw new Error("No Etsy access token found");
     }
 
+    const etsy = new Etsy({
+      apiKey: process.env.AUTH_ETSY_ID!,
+      securityDataStorage: new EtsySecurityDataStorage(),
+      enableTokenRefresh: true,
+    });
+
     return {
-      [EtsyTools.getListings]: getListingsServerConfig(),
+      [EtsyTools.getListings]: getListingsServerConfig(etsy),
     };
   },
 );

@@ -8,7 +8,7 @@ import { baseEtsyToolkitConfig } from "./base";
 
 import { createClientToolkit } from "@/toolkits/create-toolkit";
 
-import { getListingsClientConfig } from "@/toolkits/toolkits/Etsy/tools/get-listings/client";
+import { getListingsClientConfig } from "@/toolkits/toolkits/etsy/tools/get-listings/client";
 
 import { ToolkitGroups } from "@/toolkits/types";
 import { EtsyTools } from "./tools/tools";

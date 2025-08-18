@@ -10,7 +10,7 @@ import { e2bToolkitServer } from "./e2b/server";
 import { discordToolkitServer } from "./discord/server";
 import { stravaToolkitServer } from "./strava/server";
 import { spotifyToolkitServer } from "./spotify/server";
-import { etsyToolkitServer } from "./Etsy/server";
+import { etsyToolkitServer } from "./etsy/server";
 import { videoToolkitServer } from "./video/server";
 import { twitterToolkitServer } from "./twitter/server";
 import {

@@ -11,6 +11,8 @@ export interface EtsyProfile {
   image_url_75x75?: string | null;
 }
 
+export const etsyScopes = "email_r listing_r";
+
 export default function EtsyProvider<P extends EtsyProfile>(
   options: OAuthUserConfig<P>,
 ): OAuth2Config<P> {
@@ -23,7 +25,7 @@ export default function EtsyProvider<P extends EtsyProfile>(
     authorization: {
       url: "https://www.etsy.com/oauth/connect",
       params: {
-        scope: "email_r listing_r",
+        scope: etsyScopes,
         state: Math.random().toString(36).substring(2, 15),
       },
     },
@@ -62,45 +64,4 @@ export default function EtsyProvider<P extends EtsyProfile>(
     },
     options,
   };
-}
-
-export async function refreshEtsyAccessToken(
-  refreshToken: string,
-  providerAccountId: string,
-) {
-  const response = await fetch("https://api.etsy.com/v3/public/oauth/token", {
-    method: "POST",
-    headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    body: new URLSearchParams({
-      grant_type: "refresh_token",
-      client_id: process.env.AUTH_ETSY_ID!, // your app's client_id
-      refresh_token: refreshToken, // the one you stored
-    }),
-  });
-  if (!response.ok) {
-    throw new Error("Failed to refresh Etsy access token");
-  }
-  const tokens = (await response.json()) as {
-    access_token: string;
-    refresh_token: string;
-    scope: string;
-    token_type: string;
-    expires_at: number;
-  };
-
-  await db.account.update({
-    where: {
-      provider_providerAccountId: {
-        provider: "etsy",
-        providerAccountId: providerAccountId,
-      },
-    },
-    data: {
-      access_token: tokens.access_token,
-      refresh_token: tokens.refresh_token,
-      scope: tokens.scope,
-      token_type: tokens.token_type,
-      expires_at: tokens.expires_at,
-    },
-  });
 }

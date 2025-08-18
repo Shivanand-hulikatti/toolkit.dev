@@ -2,7 +2,7 @@ import { z } from "zod";
 
 import { EtsyTools } from "./tools/tools";
 
-import { getListings } from "@/toolkits/toolkits/Etsy/tools/get-listings/base";
+import { getListings } from "@/toolkits/toolkits/etsy/tools/get-listings/base";
 
 import type { ToolkitConfig } from "@/toolkits/types";
 
