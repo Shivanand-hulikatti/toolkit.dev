@@ -1,5 +1,4 @@
 import { env } from "@/env";
-import { db } from "@/server/db";
 
 import type { OAuth2Config, OAuthUserConfig } from "next-auth/providers";
 
@@ -11,7 +10,7 @@ export interface EtsyProfile {
   image_url_75x75?: string | null;
 }
 
-export const etsyScopes = "email_r listing_r";
+export const etsyScopes = "email_r shops_r listings_r";
 
 export default function EtsyProvider<P extends EtsyProfile>(
   options: OAuthUserConfig<P>,

@@ -12,11 +12,15 @@ export const getListingsClientConfig: ClientToolConfig<
       {isPartial && <span className="animate-pulse">...</span>}
     </div>
   ),
-  ResultComponent: ({ result }) => (
-    <div className="rounded border p-4">
-      {result.results.map((listing) => (
-        <div key={listing.listing_id}>{listing.title}</div>
-      ))}
-    </div>
-  ),
+  ResultComponent: ({ result: { results } }) =>
+    results.length > 0 ? (
+      <div className="space-y-2">
+        <h2 className="text-lg font-bold">Listings</h2>
+        {results.map((listing) => (
+          <div key={listing.listing_id}>{listing.title}</div>
+        ))}
+      </div>
+    ) : (
+      <h2>No listings found</h2>
+    ),
 };
