@@ -101,13 +101,14 @@ export function NavUser({
               )}
               {currentMode === "light" ? "Light mode" : "Dark mode"}
             </DropdownMenuItem>
+            <DropdownMenuSeparator />
             <ThemeSwitcher>
               <DropdownMenuItem
                 onSelect={(e) => e.preventDefault()}
                 onClick={(e) => e.stopPropagation()}
               >
                 <Palette className="size-4" />
-                Appearance
+                Theme
               </DropdownMenuItem>
             </ThemeSwitcher>
             <DropdownMenuSeparator />
