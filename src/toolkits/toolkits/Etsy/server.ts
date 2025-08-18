@@ -1,10 +1,16 @@
 import { Etsy } from "etsy-ts";
+
 import { createServerToolkit } from "../../create-toolkit";
-import { baseEtsyToolkitConfig } from "./base";
-import { EtsyTools } from "./tools/tools";
-import { getListingsServerConfig } from "@/toolkits/toolkits/etsy/tools/get-listings/server";
+
 import { api } from "@/trpc/server";
+
+import { baseEtsyToolkitConfig } from "./base";
+
+import { EtsyTools } from "./tools/tools";
 import { EtsySecurityDataStorage } from "./security-data-storage";
+
+import { getListingsServerConfig } from "@/toolkits/toolkits/etsy/tools/get-listings/server";
+
 export const etsyToolkitServer = createServerToolkit(
   baseEtsyToolkitConfig,
   "You have access to the Etsy toolkit for general account management. Currently, this toolkit provides:\n" +
