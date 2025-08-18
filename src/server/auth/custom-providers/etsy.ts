@@ -1,13 +1,14 @@
 import { env } from "@/env";
-import type { OAuth2Config, OAuthUserConfig } from "@auth/core/providers";
 import { db } from "@/server/db";
 
+import type { OAuth2Config, OAuthUserConfig } from "next-auth/providers";
+
 export interface EtsyProfile {
-  user_id: number; // The numeric ID of a user. Also a valid shop ID.
-  primary_email?: string | null; // The user's primary email address (nullable).
-  first_name?: string | null; // The user's first name (nullable).
-  last_name?: string | null; // The user's last name (nullable).
-  image_url_75x75?: string | null; // The user's avatar URL (nullable).
+  user_id: number;
+  primary_email?: string | null;
+  first_name?: string | null;
+  last_name?: string | null;
+  image_url_75x75?: string | null;
 }
 
 export default function EtsyProvider<P extends EtsyProfile>(
@@ -48,9 +49,7 @@ export default function EtsyProvider<P extends EtsyProfile>(
           },
         );
 
-        const user = (await response.json()) as EtsyProfile;
-
-        return user;
+        return (await response.json()) as EtsyProfile;
       },
     },
     profile(profile) {
@@ -81,7 +80,13 @@ export async function refreshEtsyAccessToken(
   if (!response.ok) {
     throw new Error("Failed to refresh Etsy access token");
   }
-  const tokens = await response.json();
+  const tokens = (await response.json()) as {
+    access_token: string;
+    refresh_token: string;
+    scope: string;
+    token_type: string;
+    expires_at: number;
+  };
 
   await db.account.update({
     where: {
