@@ -73,4 +73,30 @@ export const accountsRouter = createTRPCRouter({
         },
       });
     }),
+
+  updateAccount: protectedProcedure
+    .input(
+      z.object({
+        provider: z.string(),
+        providerAccountId: z.string(),
+        data: z.object({
+          access_token: z.string(),
+          refresh_token: z.string(),
+          expires_at: z.number(),
+          token_type: z.string(),
+          scope: z.string(),
+        }),
+      }),
+    )
+    .mutation(async ({ ctx, input: { provider, providerAccountId, data } }) => {
+      return ctx.db.account.update({
+        where: {
+          provider_providerAccountId: {
+            provider,
+            providerAccountId,
+          },
+        },
+        data,
+      });
+    }),
 });
