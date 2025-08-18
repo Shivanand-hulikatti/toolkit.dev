@@ -13,5 +13,10 @@ export const LLMCodeBlock: LLMOutputComponent = ({ blockMatch }) => {
     return null;
   }
 
-  return <CodeBlock value={code} language={language as BundledLanguage} />;
+  // @llm-ui/code bug: failing to remove trailing backticks
+  const cleanedCode = code.replace(/```\s*$/, "").trim();
+
+  return (
+    <CodeBlock value={cleanedCode} language={language as BundledLanguage} />
+  );
 };
