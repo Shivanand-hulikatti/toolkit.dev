@@ -1,7 +1,7 @@
 import { createServerToolkit } from "../../create-toolkit";
 import { baseEtsyToolkitConfig } from "./base";
 import { EtsyTools } from "./tools/tools";
-import { getListingsServerConfig } from "@/toolkits/toolkits/Etsy/tools/getListings/server";
+import { getListingsServerConfig } from "@/toolkits/toolkits/Etsy/tools/get-listings/server";
 import { api } from "@/trpc/server";
 export const etsyToolkitServer = createServerToolkit(
   baseEtsyToolkitConfig,

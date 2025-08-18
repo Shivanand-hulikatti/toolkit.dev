@@ -14,8 +14,7 @@ import SpotifyProvider, {
 } from "next-auth/providers/spotify";
 import StravaProvider, { type StravaProfile } from "next-auth/providers/strava";
 import CredentialsProvider from "next-auth/providers/credentials";
-
-import type { EtsyProfile } from "./custom-providers/etsy";
+import EtsyProvider, { type EtsyProfile } from "./custom-providers/etsy";
 
 import { IS_DEVELOPMENT } from "@/lib/constants";
 import { db } from "../db";
@@ -25,7 +24,6 @@ import type {
   CredentialsConfig,
   OAuthConfig,
 } from "next-auth/providers";
-import EtsyProvider from "./custom-providers/etsy";
 
 export const providers: (
   | OAuthConfig<DiscordProfile>

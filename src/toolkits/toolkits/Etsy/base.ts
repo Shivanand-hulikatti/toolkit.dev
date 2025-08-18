@@ -1,7 +1,10 @@
 import { z } from "zod";
-import type { ToolkitConfig } from "@/toolkits/types";
+
 import { EtsyTools } from "./tools/tools";
-import { getListings } from "@/toolkits/toolkits/Etsy/tools/getListings/base";
+
+import { getListings } from "@/toolkits/toolkits/Etsy/tools/get-listings/base";
+
+import type { ToolkitConfig } from "@/toolkits/types";
 
 export const etsyParameters = z.object({});
 

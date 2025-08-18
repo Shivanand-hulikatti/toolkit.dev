@@ -1,11 +1,17 @@
 import { SiEtsy } from "@icons-pack/react-simple-icons";
-import { createClientToolkit } from "@/toolkits/create-toolkit";
-import { ToolkitGroups } from "@/toolkits/types";
-import { baseEtsyToolkitConfig } from "./base";
+
 import { EtsyWrapper } from "./wrapper";
+
 import { Link } from "../components/link";
+
+import { baseEtsyToolkitConfig } from "./base";
+
+import { createClientToolkit } from "@/toolkits/create-toolkit";
+
+import { getListingsClientConfig } from "@/toolkits/toolkits/Etsy/tools/get-listings/client";
+
+import { ToolkitGroups } from "@/toolkits/types";
 import { EtsyTools } from "./tools/tools";
-import { getListingsClientConfig } from "@/toolkits/toolkits/Etsy/tools/getListings/client";
 
 export const etsyClientToolkit = createClientToolkit(
   baseEtsyToolkitConfig,

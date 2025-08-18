@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { createBaseTool } from "@/toolkits/create-tool";
-import { ShopListing } from "etsy-ts/dist/api/ShopListing";
 import type { IShopListingsWithAssociations } from "etsy-ts";
+import type { ShopListing } from "etsy-ts/dist/api/ShopListing";
 
 export const getListings = createBaseTool({
   description:
