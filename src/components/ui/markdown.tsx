@@ -101,7 +101,7 @@ const NonMemoizedMarkdown: React.FC<MarkdownProps> = ({
           return (
             <Link
               href={href ?? ""}
-              className="text-primary underline"
+              className="underline text-[var(--color-primary-800)]"
               target="_blank"
               rel="noopener noreferrer"
             >
